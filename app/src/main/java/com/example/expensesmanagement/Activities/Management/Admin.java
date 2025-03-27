@@ -1,4 +1,4 @@
-package com.example.expensesmanagement.Activities.Auth;
+package com.example.expensesmanagement.Activities.Management;
 
 import android.os.Bundle;
 
@@ -10,13 +10,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.expensesmanagement.R;
 
-public class ChangePassword extends AppCompatActivity {
+public class Admin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_change_password);
+        setContentView(R.layout.activity_admin);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

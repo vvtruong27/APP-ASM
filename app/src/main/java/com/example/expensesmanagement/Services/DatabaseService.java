@@ -91,296 +91,33 @@ public class DatabaseService extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         onCreate(db);
     }
-
-    // ===================== CRUD cho User =====================
-
-    // Create
-    public long addUser(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("username", user.getUsername());
-        values.put("password", user.getPassword());
-        values.put("email", user.getEmail());
-        values.put("role", user.getRole());
-        long id = db.insert(TABLE_USER, null, values);
-        db.close();
-        return id;
-    }
-
-    // Read
-    public User getUser(int id) {
+    public Cursor getUserByUsernameAndPassword(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USER, new String[]{"id", "username", "password", "email", "role"},
-                "id=?", new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            User user = new User();
-            user.setId(cursor.getInt(0));
-            user.setUsername(cursor.getString(1));
-            user.setPassword(cursor.getString(2));
-            user.setEmail(cursor.getString(3));
-            user.setRole(cursor.getString(4));
-            cursor.close();
-            db.close();
-            return user;
-        }
-        db.close();
-        return null;
+        String query = "SELECT * FROM User WHERE username = ? AND password = ?";
+        return db.rawQuery(query, new String[]{username, password});
     }
 
-    // Update
-    public int updateUser(User user) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("username", user.getUsername());
-        values.put("password", user.getPassword());
-        values.put("email", user.getEmail());
-        values.put("role", user.getRole());
-        int rows = db.update(TABLE_USER, values, "id = ?", new String[]{String.valueOf(user.getId())});
-        db.close();
-        return rows;
-    }
-
-    // Delete
-    public int deleteUser(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int rows = db.delete(TABLE_USER, "id = ?", new String[]{String.valueOf(id)});
-        db.close();
-        return rows;
-    }
-
-    // ===================== CRUD cho Budget =====================
-
-    public long addBudget(Budget budget) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("user_id", budget.getUserId());
-        values.put("name", budget.getName());
-        values.put("limit_amount", budget.getLimitAmount());
-        values.put("remaining_amount", budget.getRemainingAmount());
-        long id = db.insert(TABLE_BUDGET, null, values);
-        db.close();
-        return id;
-    }
-
-    public Budget getBudget(int id) {
+    // Kiểm tra xem username đã tồn tại hay chưa
+    public boolean isUserExists(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_BUDGET, new String[]{"id", "user_id", "name", "limit_amount", "remaining_amount"},
-                "id=?", new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            Budget budget = new Budget();
-            budget.setId(cursor.getInt(0));
-            budget.setUserId(cursor.getInt(1));
-            budget.setName(cursor.getString(2));
-            budget.setLimitAmount(cursor.getDouble(3));
-            budget.setRemainingAmount(cursor.getDouble(4));
-            cursor.close();
-            db.close();
-            return budget;
-        }
-        db.close();
-        return null;
+        String query = "SELECT * FROM User WHERE username = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
     }
 
-    public List<Budget> getBudgetsByUser(int userId) {
-        List<Budget> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_BUDGET, new String[]{"id", "user_id", "name", "limit_amount", "remaining_amount"},
-                "user_id=?", new String[]{String.valueOf(userId)}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                Budget budget = new Budget();
-                budget.setId(cursor.getInt(0));
-                budget.setUserId(cursor.getInt(1));
-                budget.setName(cursor.getString(2));
-                budget.setLimitAmount(cursor.getDouble(3));
-                budget.setRemainingAmount(cursor.getDouble(4));
-                list.add(budget);
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        db.close();
-        return list;
-    }
-
-    public int updateBudget(Budget budget) {
+    // Thêm user mới vào database
+    public boolean insertUser(String username, String email, String password, String role) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("user_id", budget.getUserId());
-        values.put("name", budget.getName());
-        values.put("limit_amount", budget.getLimitAmount());
-        values.put("remaining_amount", budget.getRemainingAmount());
-        int rows = db.update(TABLE_BUDGET, values, "id = ?", new String[]{String.valueOf(budget.getId())});
-        db.close();
-        return rows;
+        values.put("username", username);
+        values.put("email", email);
+        values.put("password", password);
+        values.put("role", role);
+
+        long result = db.insert("User", null, values);
+        return result != -1; // Trả về true nếu chèn thành công, false nếu thất bại
     }
 
-    public int deleteBudget(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int rows = db.delete(TABLE_BUDGET, "id = ?", new String[]{String.valueOf(id)});
-        db.close();
-        return rows;
-    }
-
-    // ===================== CRUD cho Expense =====================
-
-    public long addExpense(Expense expense) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("budget_id", expense.getBudgetId());
-        values.put("amount", expense.getAmount());
-        values.put("description", expense.getDescription());
-        // Lưu ngày dưới dạng chuỗi
-        values.put("date", dateFormat.format(expense.getDate()));
-        values.put("is_recurring", expense.isRecurring() ? 1 : 0);
-        long id = db.insert(TABLE_EXPENSE, null, values);
-        db.close();
-        return id;
-    }
-
-    public Expense getExpense(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_EXPENSE, new String[]{"id", "budget_id", "amount", "description", "date", "is_recurring"},
-                "id=?", new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            Expense expense = new Expense();
-            expense.setId(cursor.getInt(0));
-            expense.setBudgetId(cursor.getInt(1));
-            expense.setAmount(cursor.getDouble(2));
-            expense.setDescription(cursor.getString(3));
-            try {
-                expense.setDate(dateFormat.parse(cursor.getString(4)));
-            } catch (ParseException e) {
-                expense.setDate(new Date());
-            }
-            expense.setRecurring(cursor.getInt(5) == 1);
-            cursor.close();
-            db.close();
-            return expense;
-        }
-        db.close();
-        return null;
-    }
-
-    public List<Expense> getExpensesByBudget(int budgetId) {
-        List<Expense> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_EXPENSE, new String[]{"id", "budget_id", "amount", "description", "date", "is_recurring"},
-                "budget_id=?", new String[]{String.valueOf(budgetId)}, null, null, "date DESC");
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                Expense expense = new Expense();
-                expense.setId(cursor.getInt(0));
-                expense.setBudgetId(cursor.getInt(1));
-                expense.setAmount(cursor.getDouble(2));
-                expense.setDescription(cursor.getString(3));
-                try {
-                    expense.setDate(dateFormat.parse(cursor.getString(4)));
-                } catch (ParseException e) {
-                    expense.setDate(new Date());
-                }
-                expense.setRecurring(cursor.getInt(5) == 1);
-                list.add(expense);
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        db.close();
-        return list;
-    }
-
-    public int updateExpense(Expense expense) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("budget_id", expense.getBudgetId());
-        values.put("amount", expense.getAmount());
-        values.put("description", expense.getDescription());
-        values.put("date", dateFormat.format(expense.getDate()));
-        values.put("is_recurring", expense.isRecurring() ? 1 : 0);
-        int rows = db.update(TABLE_EXPENSE, values, "id = ?", new String[]{String.valueOf(expense.getId())});
-        db.close();
-        return rows;
-    }
-
-    public int deleteExpense(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int rows = db.delete(TABLE_EXPENSE, "id = ?", new String[]{String.valueOf(id)});
-        db.close();
-        return rows;
-    }
-
-    // ===================== CRUD cho Notification =====================
-
-    public long addNotification(Notification notification) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("user_id", notification.getUserId());
-        values.put("message", notification.getMessage());
-        values.put("date", dateFormat.format(notification.getDate()));
-        long id = db.insert(TABLE_NOTIFICATION, null, values);
-        db.close();
-        return id;
-    }
-
-    public Notification getNotification(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NOTIFICATION, new String[]{"id", "user_id", "message", "date"},
-                "id=?", new String[]{String.valueOf(id)}, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            Notification notification = new Notification();
-            notification.setId(cursor.getInt(0));
-            notification.setUserId(cursor.getInt(1));
-            notification.setMessage(cursor.getString(2));
-            try {
-                notification.setDate(dateFormat.parse(cursor.getString(3)));
-            } catch (ParseException e) {
-                notification.setDate(new Date());
-            }
-            cursor.close();
-            db.close();
-            return notification;
-        }
-        db.close();
-        return null;
-    }
-
-    public List<Notification> getNotificationsByUser(int userId) {
-        List<Notification> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NOTIFICATION, new String[]{"id", "user_id", "message", "date"},
-                "user_id=?", new String[]{String.valueOf(userId)}, null, null, "date DESC");
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                Notification notification = new Notification();
-                notification.setId(cursor.getInt(0));
-                notification.setUserId(cursor.getInt(1));
-                notification.setMessage(cursor.getString(2));
-                try {
-                    notification.setDate(dateFormat.parse(cursor.getString(3)));
-                } catch (ParseException e) {
-                    notification.setDate(new Date());
-                }
-                list.add(notification);
-            } while (cursor.moveToNext());
-            cursor.close();
-        }
-        db.close();
-        return list;
-    }
-
-    public int updateNotification(Notification notification) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("user_id", notification.getUserId());
-        values.put("message", notification.getMessage());
-        values.put("date", dateFormat.format(notification.getDate()));
-        int rows = db.update(TABLE_NOTIFICATION, values, "id = ?", new String[]{String.valueOf(notification.getId())});
-        db.close();
-        return rows;
-    }
-
-    public int deleteNotification(int id) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int rows = db.delete(TABLE_NOTIFICATION, "id = ?", new String[]{String.valueOf(id)});
-        db.close();
-        return rows;
-    }
 }
