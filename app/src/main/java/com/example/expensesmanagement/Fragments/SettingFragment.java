@@ -12,10 +12,10 @@ import com.example.expensesmanagement.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Setting#newInstance} factory method to
+ * Use the {@link SettingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Setting extends Fragment {
+public class SettingFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class Setting extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Setting() {
+    public SettingFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class Setting extends Fragment {
      * @return A new instance of fragment Setting.
      */
     // TODO: Rename and change types and number of parameters
-    public static Setting newInstance(String param1, String param2) {
-        Setting fragment = new Setting();
+    public static SettingFragment newInstance(String param1, String param2) {
+        SettingFragment fragment = new SettingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
