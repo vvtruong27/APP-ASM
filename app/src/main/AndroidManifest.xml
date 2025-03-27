@@ -13,7 +13,34 @@
         android:theme="@style/Theme.ExpensesManagement"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.Expense.EditExpense"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Expense.CreateExpense"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Budget.EditBudget"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Budget.CreateBudget"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Auth.ViewProfile"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Auth.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Auth.ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Auth.Register"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Auth.Login"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
