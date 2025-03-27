@@ -11,8 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.expensesmanagement.Activities.Management.Admin;
-import com.example.expensesmanagement.Activities.Management.Student;
+import com.example.expensesmanagement.Activities.Budget.ManageBudget;
+import com.example.expensesmanagement.Activities.User.ManageUser;
 import com.example.expensesmanagement.R;
 import com.example.expensesmanagement.Services.DatabaseService;
 
@@ -73,9 +73,9 @@ public class Login extends AppCompatActivity {
             // Điều hướng theo vai trò
             Intent intent;
             if (role.equals("student")) {
-                intent = new Intent(Login.this, Student.class);
+                intent = new Intent(Login.this, ManageBudget.class);
             } else {
-                intent = new Intent(Login.this, Admin.class);
+                intent = new Intent(Login.this, ManageUser.class);
             }
             startActivity(intent);
             finish();

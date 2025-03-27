@@ -13,10 +13,16 @@
         android:theme="@style/Theme.ExpensesManagement"
         tools:targetApi="31">
         <activity
-            android:name=".Activities.Management.Admin"
+            android:name=".Activities.User.MonitorUsage"
             android:exported="false" />
         <activity
-            android:name=".Activities.Management.Student"
+            android:name=".Activities.User.ManageUser"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Expense.ManageExpense"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Budget.ManageBudget"
             android:exported="false" />
         <activity
             android:name=".Activities.Expense.EditExpense"
@@ -32,12 +38,6 @@
             android:exported="false" />
         <activity
             android:name=".Activities.Auth.ViewProfile"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Auth.ChangePassword"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Auth.ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".Activities.Auth.Register"
