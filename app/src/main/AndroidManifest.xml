@@ -12,45 +12,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpensesManagement"
         tools:targetApi="31">
-        <activity
-            android:name=".Activities.User.MonitorUsage"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.User.ManageUser"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Expense.ManageExpense"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Budget.ManageBudget"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Expense.EditExpense"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Expense.CreateExpense"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Budget.EditBudget"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Budget.CreateBudget"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Auth.ViewProfile"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Auth.Register"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Auth.Login"
-            android:exported="false" />
+
+        <!-- Authentication-related activities -->
+        <activity android:name=".Activities.Auth.Login" android:exported="false" />
+        <activity android:name=".Activities.Auth.Register" android:exported="false" />
+        <activity android:name=".Activities.Auth.ViewProfile" android:exported="false" />
+        <activity android:name=".Activities.Auth.EditProfile" android:exported="false" />
+
+        <!-- User management activities -->
+        <activity android:name=".Activities.User.CreateUser" android:exported="false" />
+        <activity android:name=".Activities.User.EditUser" android:exported="false" />
+        <activity android:name=".Activities.User.MonitorUsage" android:exported="false" />
+        <activity android:name=".Activities.User.ManageUser" android:exported="false" />
+
+        <!-- Expense management activities -->
+        <activity android:name=".Activities.Expense.CreateExpense" android:exported="false" />
+        <activity android:name=".Activities.Expense.EditExpense" android:exported="false" />
+        <activity android:name=".Activities.Expense.ManageExpense" android:exported="false" />
+        <activity android:name=".Activities.Expense.ExpenseReport" android:exported="false" />
+
+        <!-- Budget management activities -->
+        <activity android:name=".Activities.Budget.CreateBudget" android:exported="false" />
+        <activity android:name=".Activities.Budget.EditBudget" android:exported="false" />
+        <activity android:name=".Activities.Budget.ManageBudget" android:exported="false" />
+
+        <!-- Main activity (Entry point of the application) -->
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

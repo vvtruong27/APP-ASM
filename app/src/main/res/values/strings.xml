@@ -2,4 +2,11 @@
     <string name="app_name">ExpensesManagement</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="usage_ranges">
+        <item>Today</item>
+        <item>Last 7 Days</item>
+        <item>Last 30 Days</item>
+        <item>Custom Range</item>
+    </string-array>
+
 </resources>

@@ -2,4 +2,27 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_700">#3700B2</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    <!-- Màu chủ đạo -->
+    <color name="primary_blue">#1976D2</color>  <!-- Màu xanh chủ đạo -->
+    <color name="light_blue">#BBDEFB</color>    <!-- Màu xanh nhạt -->
+    <color name="dark_blue">#0D47A1</color>    <!-- Màu xanh đậm -->
+    <color name="color_primary">#6750A4</color>
+    <!-- Màu nền -->
+    <color name="light_gray">#F5F5F5</color>   <!-- Màu xám nhạt -->
+    <color name="dark_gray">#616161</color>    <!-- Màu xám đậm -->
+
+    <!-- Màu cảnh báo & thông báo -->
+    <color name="error_red">#D32F2F</color>    <!-- Màu đỏ lỗi -->
+    <color name="success_green">#388E3C</color>  <!-- Màu xanh thành công -->
+    <color name="warning_orange">#FFA000</color>  <!-- Màu cam cảnh báo -->
+
+    <!-- Màu cho ProgressBar -->
+    <color name="progress_start">#4CAF50</color>  <!-- Màu bắt đầu (xanh lá) -->
+    <color name="progress_middle">#FFC107</color>  <!-- Màu giữa (vàng) -->
+    <color name="progress_end">#F44336</color>  <!-- Màu kết thúc (đỏ) -->
 </resources>
