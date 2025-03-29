@@ -15,21 +15,27 @@ import com.example.expensesmanagement.Services.DatabaseService;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Buttons for login and register actions
     private Button btnLogin, btnRegister;
+    // Database service for initializing the database connection
     private DatabaseService databaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Set the layout for the MainActivity
         setContentView(R.layout.activity_main);
-        // Khởi tạo database ngay khi mở ứng dụng
+
+        // Initialize the database service when the app opens
         databaseService = new DatabaseService(this);
-        SQLiteDatabase db = databaseService.getReadableDatabase();  // Mở database để đảm bảo có kết nối
-        // Ánh xạ view
+        // Open the database to ensure the connection is established
+        SQLiteDatabase db = databaseService.getReadableDatabase();
+
+        // Bind UI views from the layout
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
 
-        // Sự kiện click nút Login
+        // Set click event for the Login button to navigate to Login activity
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Sự kiện click nút Register
+        // Set click event for the Register button to navigate to Register activity
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
